@@ -1,13 +1,17 @@
-const express = require('express'),
-      app = express();
+const express = require('express'), app = express();
+const bodyParser = require('body-parser');
+const cors = require('cors');
+    
+const spotifyCredentials = require('./controllers/spotifyCredentials');
 
-app.get('/', (req, res)=>{
+app.use(bodyParser.json());
+app.use(cors());
+
+app.get('/', (req, res) => {
     res.send('Hello world');
 });
 
-app.get('/spotify-credentials', (req, res) => {
-    res.send('Spotify credentials')
-});
+app.get('/spotify-credentials', (req, res) => spotifyCredentials.handleSpotifyCredentials(req, res));
 
-//Binding the server to a port(3000)
-app.listen(4000,()=>console.log('express server started at port 4000'));
+
+app.listen(4000, () => console.log('express server started at port 4000'));
